@@ -1,5 +1,14 @@
 <template>
-  <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
+  <div class="app-content bg-neutral-900">
+    <base-layout></base-layout>
+  </div>
 </template>
+<script>
+import BaseLayout from "@/components/layouts/BaseLayout";
+
+export default {
+  components: {
+    BaseLayout
+  }
+}
+</script>
