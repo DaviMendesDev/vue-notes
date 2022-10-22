@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { dateDisplay } from "@/components/layouts/contants/date";
+import { dateDisplay } from "@/constants/date";
 const fakeWorkspaces = [
   {
     name: 'Workspace 13'
