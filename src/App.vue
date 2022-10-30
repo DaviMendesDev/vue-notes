@@ -1,14 +1,13 @@
 <template>
-  <div class="app-content bg-neutral-900">
-    <base-layout></base-layout>
+  <div class="app-content bg-ivory">
+    <router-view></router-view>
   </div>
 </template>
 <script>
-import BaseLayout from "@/components/layouts/BaseLayout";
-
 export default {
-  components: {
-    BaseLayout
-  }
+  name: 'App',
+  setup() {
+    return {};
+  },
 }
 </script>

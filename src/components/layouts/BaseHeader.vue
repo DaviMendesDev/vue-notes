@@ -1,36 +1,39 @@
 <template>
-  <header class="text-lg mx-auto bg-neutral-800">
+  <header class="text-lg text-alabaster bg-prussian-blue">
     <nav class="flex space-between">
-      <div class="flex-initial flex flex-col" ref="">
-        <div class="text-neutral-400 rounded mx-4 my-1 cursor-pointer hover:bg-neutral-700">
+      <div class="flex-initial flex flex-col" @focusout="this.displayWorkspaces = false">
+        <div class="rounded flex-initial mx-4 my-1 cursor-pointer">
           <button @click="this.displayWorkspaces = ! this.displayWorkspaces"
-                  @focusout="this.displayWorkspaces = false"
-                  class="flex-initial px-4 py-2" role="button" type="button">
-            <span class="inline-block mx-4">
-              Workspaces
+                  class="flex flex-cols px-4 py-2 w-56 hover:bg-indigo-dye rounded" role="button" type="button">
+            <span class="inline-block flex-auto mx-4 truncate">
+              {{ this.currentWorkspace.name }}
             </span>
-            <span class="inline-block mx-4">
+            <span class="inline-block flex-initial mx-4">
               <font-awesome-icon icon="fa-solid fa-chevron-down" />
             </span>
           </button>
         </div>
-        <div v-show="displayWorkspaces"
-             class="flex-1 relative mx-4">
-          <div class="absolute w-full top-0 left-0 my-1 rounded-b bg-neutral-800 text-neutral-400 flex flex-col">
-            <template v-for="workspace in workspaces" :key="workspace.name">
-              <div class="relative hover:bg-neutral-700">
-                <div class="py-2 px-4 hover:bg-neutral-700 truncate">
-                  <span v-text="workspace.name"></span>
-                </div>
-                <a :href="'/goto/workspace' + workspace.name" class="absolute top-0 right-0 w-full h-full"></a>
+        <div class="relative mx-4">
+            <div
+                class="absolute flex-auto text-alabaster bg-prussian-blue w-full top-0 left-0
+                      my-1 rounded-b flex flex-col ease-in-out duration-300 overflow-hidden"
+                :style="{ transitionProperty: 'height', height: (this.displayWorkspaces) ? '10rem' : '0' }">
+
+              <div class="overflow-scroll">
+                <template v-for="workspace in workspaces" :key="workspace.id">
+                  <router-link :to="{ name: 'open.workspace', params: { workspace: workspace.id } }" class="hover:bg-indigo-dye rounded">
+                    <div class="py-2 px-4 truncate">
+                      <span v-text="workspace.name"></span>
+                    </div>
+                  </router-link>
+                </template>
               </div>
-            </template>
-          </div>
+            </div>
         </div>
       </div>
       <div class="flex-auto">
         <div class="flex flex-row-reverse">
-          <div class="my-2 mx-8 py-2 px-4 rounded cursor-pointer text-neutral-400 text-sm hover:bg-neutral-700"
+          <div class="my-2 mx-8 py-2 px-4 rounded cursor-pointer text-sm hover:bg-indigo-dye"
             v-text="showState()"
             @click="changeInfoDisplay">
           </div>
@@ -42,17 +45,7 @@
 
 <script>
 import { dateDisplay } from "@/constants/date";
-const fakeWorkspaces = [
-  {
-    name: 'Workspace 13'
-  },
-  {
-    name: 'Workspace 12333'
-  },
-  {
-    name: 'Workspace 12312312331231231232'
-  },
-]
+import apiWorkspaces from "@/services/api-workspaces";
 
 export default {
   name: "BaseHeader",
@@ -60,12 +53,23 @@ export default {
     setInterval(() => {
       this.currentTime = new Date();
     }, 1000);
+
+
+    console.log("passed mounted!");
+    apiWorkspaces.myWorkspaces()
+        .then(workspaces => { this.workspaces = workspaces })
+  },
+  props: {
+    currentWorkspace: {
+      type: Object,
+      required: true,
+    }
   },
   data() {
     return {
       currentTime: new Date(),
       displayMode: 1,
-      workspaces: fakeWorkspaces,
+      workspaces: [],
       displayWorkspaces: false,
     }
   },
