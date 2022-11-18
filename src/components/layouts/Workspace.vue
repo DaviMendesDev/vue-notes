@@ -19,8 +19,10 @@ import apiWorkspaces from "@/services/api-workspaces";
 export default {
   name: "WorkspaceLayout",
   mounted() {
-    apiWorkspaces.getWorkspaceShortInfo(this.$route.params.workspace)
-        .then(current => this.currentWorkspace = current)
+    if (this.$route.params.workspace) {
+      apiWorkspaces.getWorkspaceShortInfo(this.$route.params.workspace)
+          .then(current => this.currentWorkspace = current)
+    }
   },
   data() {
     return {
@@ -29,8 +31,10 @@ export default {
     }
   },
   beforeRouteUpdate(to) {
-    apiWorkspaces.getWorkspaceShortInfo(to.params.workspace)
-        .then(current => this.currentWorkspace = current)
+    if (to.params.workspace) {
+      apiWorkspaces.getWorkspaceShortInfo(to.params.workspace)
+          .then(current => this.currentWorkspace = current)
+    }
   },
   components: {
     BaseHeader,
