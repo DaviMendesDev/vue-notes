@@ -11,3 +11,9 @@ services:
       - ./:/home/node/app
     ports:
       - "8081:8080"
+    networks:
+      - notes_default_network
+
+networks:
+  notes_default_network:
+    name: notes_default_network
