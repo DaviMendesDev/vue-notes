@@ -2,32 +2,24 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import './styles/main.css'
 
-
 // fontawesome
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import {
-    faChevronDown
-} from '@fortawesome/free-solid-svg-icons'
+import FontAwesomeIcon from '@/bootstrap/font-awesome'
 
-library.add(
-    faChevronDown
-)
+// cookies management
+import VueCookies from "@/bootstrap/cookie";
 
 // routing
-import * as VueRouter from 'vue-router';
-import routes from '@/routes'
+import router from '@/bootstrap/routing'
 
-const router = VueRouter.createRouter({
-    history: VueRouter.createWebHashHistory(),
-    base: '/',
-    routes
-})
+// state management
+import store from '@/bootstrap/state'
 
 // creating the app
 const app = createApp(App)
 
+app.use(VueCookies)
 app.use(router)
+app.use(store)
 
 app.component('font-awesome-icon', FontAwesomeIcon)
     .mount('#app')

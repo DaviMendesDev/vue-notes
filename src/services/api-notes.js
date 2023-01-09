@@ -1,16 +1,19 @@
-import fakeNotes from "@/fake/notes";
+import baseApi from "@/services/base-api";
 
 const apiNotes = {
-    async getNoteInfo(id) {
-        return fakeNotes.find(el => el.id.toString().trim() === id.toString().trim())
+    getNoteInfo(id) {
+        return baseApi().get(`/notes/${id}`).then(res => res.data).then(data => data.data)
     },
-    async getShortInfo(id) {
-        return this.getNoteInfo(id)
+
+    async getMyNotes() {
+        return baseApi().get('/notes/me').then(res => res.data).then(data => data.data)
     },
 
     async save(note) {
         return note.id;
     }
 }
+
+Object.freeze(apiNotes)
 
 export default apiNotes

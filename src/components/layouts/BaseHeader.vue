@@ -6,7 +6,7 @@
           <button @click="this.displayWorkspaces = ! this.displayWorkspaces"
                   class="flex flex-cols px-4 py-2 w-56 hover:bg-indigo-dye rounded" role="button" type="button">
             <span class="inline-block flex-auto mx-4 truncate">
-              {{ this.currentWorkspace.name }}
+              Workspaces
             </span>
             <span class="inline-block flex-initial mx-4">
               <font-awesome-icon icon="fa-solid fa-chevron-down" />
@@ -37,6 +37,11 @@
             v-text="showState()"
             @click="changeInfoDisplay">
           </div>
+          <div>
+            <span class="text-neutral-300"
+                  v-text="this.$store.state.user.name">
+            </span>
+          </div>
         </div>
       </div>
     </nav>
@@ -54,16 +59,8 @@ export default {
       this.currentTime = new Date();
     }, 1000);
 
-
-    console.log("passed mounted!");
     apiWorkspaces.myWorkspaces()
         .then(workspaces => { this.workspaces = workspaces })
-  },
-  props: {
-    currentWorkspace: {
-      type: Object,
-      required: true,
-    }
   },
   data() {
     return {
